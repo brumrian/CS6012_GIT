@@ -2,7 +2,7 @@ package assignment03;
 
 import java.util.*;
 
-public class BinarySearchSet <E> implements lab05.SortedSet<E> {
+public class BinarySearchSet <E> implements lab05.SortedSet<E>, Iterable<E> {
 
     int size = 0;
     int capacity = 100;
@@ -24,9 +24,6 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
         myComparator = new NaturalComparator();
 
 
-        //implements comparable super E
-        //if already implements comparable, use the natural ordering
-        //binary search returns an index - the index where it is or the index it SHOULD be
     }
 
 
@@ -34,14 +31,15 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
         set = (E[]) new Object[capacity];
         myComparator = comparator;
 
-        //user wants to pass a comparator
-        //assume E implements compareTo() (doesnt like this one)
-        //we create a natural comparator that does the call to compare to
-        //google natural order comparator
     }
 
 
     public int driver(int min, int max, E toFind){
+
+        if(size == 0 || set == null){
+            return 0;
+        }
+
         return getBinarySearchIndex(min, max, toFind);
     }
 
@@ -53,7 +51,6 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
             }
             else if(myComparator.compare(set[left], toFind) >= 0){
                 return left;
-
             }
             else{
                 return left + 1;
@@ -98,8 +95,6 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
     @Override
     public boolean add(E element) {
 
-//        System.out.println("_______________________");
-
         if(contains(element)){
             return false;
         }
@@ -110,7 +105,9 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
             return true;
         }
 
-        if(capacity >= this.size + 1) {
+        if(capacity <= this.size + 1){
+            doubleCapacity();
+        }
 
             int index = driver(0, size - 1, element);
 
@@ -122,22 +119,26 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
 
             size++;
 
-            for(int i = 0; i < size; i++){
-                System.out.println("hello from add: " + set[i]);
-            }
             return true;
-        }
 
-
-        return false;
     }
 
 
     @Override
     public boolean addAll(Collection elements) {
+        int before = size;
+
         for(Object e: elements){
-            add((E) e);
+                add((E) e);
+            }
+
+
+        int after = size;
+
+        if(after > before){
+            return true;
         }
+
         return false;
     }
 
@@ -153,7 +154,7 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
 
         int index = driver(0, size, (E) element);
 
-        if(size==0 || index >= size){
+        if(size==0 || index >= size || index < 0 ){
             return false;
         }
 
@@ -172,9 +173,50 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
         return false;
     }
 
+
+    public class setIterator implements Iterator<E>{
+
+        private int position = 0;
+        private int previous = -1;
+        boolean calledNext = false;
+
+
+        @Override
+        public boolean hasNext() {
+            if(position < size){
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public E next() {
+
+            if(!hasNext()){
+                throw new NoSuchElementException();
+            }
+            calledNext = true;
+            previous++;
+            return set[position++];
+        }
+        @Override
+        public void remove(){
+
+            if(!calledNext){
+                throw new IllegalStateException("sup");
+            }
+
+            BinarySearchSet.this.remove(set[previous]);
+            calledNext = false;
+
+        }
+
+
+    };
+
     @Override
-    public Iterator iterator() {
-        return null;
+    public Iterator<E> iterator() {
+        return new setIterator();
     }
 
     @Override
@@ -191,10 +233,7 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
 
 
             size --;
-//
-//            for(int i = 0; i < size; i++){
-//                System.out.println("hello from remove" + set[i]);
-//            }
+
             return true;
 
 
@@ -205,12 +244,17 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public Object[] toArray() {
-        return set;
+
+        Object[] toReturn = new Object[size];
+        for(int i = 0; i < size; i++){
+            toReturn[i] = set[i];
+        }
+        return toReturn;
     }
 
     @Override
@@ -224,15 +268,10 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
                 size--;
             }
         }
-
+        if(size < 0){size = 0;}
         int after = size;
-        System.out.println("after size expect 2 is " + size);
 
         if(before != after){
-
-            for(int i = 0; i < size; i++){
-                System.out.println("hello from removeAll" + set[i]);
-            }
 
             return true;
         }
@@ -253,146 +292,14 @@ public class BinarySearchSet <E> implements lab05.SortedSet<E> {
         return containsAll;
     }
 
-    public static void main(String[] args) {
-
-        BinarySearchSet<String> stringSet = new BinarySearchSet<>();
-        ArrayList<String> strings = new ArrayList<>();
-
-        strings.add("Banana");
-        strings.add("Apple");
-        strings.add("Teeth");
-        strings.add("Running");
-        strings.add("Zoo");
-        strings.add("Friendly");
-        strings.add("Quick");
-        strings.add("Car");
-
-
-        stringSet.addAll(strings);
-
-        if(stringSet.add("Banana") || stringSet.add("Apple") || stringSet.add("Teeth")
-                || stringSet.add("Running") || stringSet.add("Zoo") || stringSet.add("Friendly")
-                || stringSet.add("Quick") || stringSet.add("Car")){
-            System.err.println("TEST FAILED -- stringSet add(duplicate");
+    private void doubleCapacity() {
+        capacity = capacity*2;
+        E[] larger = (E[]) new Object[capacity];
+        for(int i = 0; i < size(); i++){
+            larger[i] = set[i];
         }
-
-        if(stringSet.addAll(strings)){
-            System.err.println("TEST FAILED -- stringSet addAll(duplicates");
-        }
-
-        if(!stringSet.contains("Banana") || !stringSet.contains("Apple") || !stringSet.contains("Teeth")
-                || !stringSet.contains("Running") || !stringSet.contains("Zoo") || !stringSet.contains("Friendly")
-                || !stringSet.contains("Quick") || !stringSet.contains("Car")){
-            System.err.println("TEST FAILED -- stringSet !contains(element)");
-        }
-
-        if(!stringSet.containsAll(strings)){
-            System.err.println("TEST FAILED -- stringSet !containsAll(elements)");
-
-        }
-
-        ArrayList<String> stringsNotInSet = new ArrayList<>();
-        stringsNotInSet.add("Hello");
-        stringsNotInSet.add("Not");
-        stringsNotInSet.add("Joke");
-        stringsNotInSet.add("Yes");
-        stringsNotInSet.add("Funny");
-
-        if(stringSet.contains(stringsNotInSet.get(0)) ||stringSet.contains(stringsNotInSet.get(1))
-                || stringSet.contains(stringsNotInSet.get(2)) || stringSet.contains(stringsNotInSet.get(3))
-                || stringSet.contains(stringsNotInSet.get(4))){
-            System.err.println("TEST FAILED -- stringSet contains(element)");
-        }
-
-        if(stringSet.containsAll(stringsNotInSet)){
-            System.err.println("TEST FAILED -- stringSet containsAll(elements)");
-
-        }
-
-
-        stringSet.remove("Car");
-
-        if(stringSet.contains("Car")){
-            System.err.println("TEST FAILED -- stringSet remove(element)");
-        }
-        if(!stringSet.removeAll(strings)){
-            System.err.println("TEST FAILED -- stringSet removeAll(elements)");
-        }
-
-
-
-
-        BinarySearchSet<Integer> intSet = new BinarySearchSet<>();
-        ArrayList<Integer> ints = new ArrayList<>();
-
-        ints.add(-1000);
-        ints.add(-100);
-        ints.add(50);
-        ints.add(0);
-        ints.add(37);
-        ints.add(500);
-        ints.add(3000);
-        ints.add(-21);
-        ints.add(77);
-        ints.add(-300);
-
-
-        intSet.addAll(ints);
-
-        if(intSet.add(-1000) || intSet.add(-100) || intSet.add(50) || intSet.add(0) || intSet.add(37)
-                || intSet.add(500) || intSet.add(3000) || intSet.add(-21) || intSet.add(77) || intSet.add(-100)){
-            System.err.println("TEST FAILED -- intSet add(duplicate)");
-
-        }
-
-        if(intSet.addAll(ints)){
-            System.err.println("TEST FAILED -- intSet addAll(duplicates)");
-
-        }
-
-        if(!intSet.contains(-1000) || !intSet.contains(-100) || !intSet.contains(50) || !intSet.contains(0) || !intSet.contains(37)
-                || !intSet.contains( 500) || !intSet.contains(3000) || !intSet.contains(-21) || !intSet.contains(77) || !intSet.contains(-100)){
-            System.err.println("TEST FAILED -- intSet !contains(element)");
-
-        }
-
-        if(!intSet.containsAll(ints)){
-            System.err.println("TEST FAILED -- intSet !containsAll(elements)");
-        }
-
-        ArrayList<Integer> intsNotInSet = new ArrayList<>();
-        intsNotInSet.add(499);
-        intsNotInSet.add(53);
-        intsNotInSet.add(550);
-        intsNotInSet.add(-77);
-        intsNotInSet.add(-3000);
-
-        if(ints.contains(intsNotInSet.get(0)) || intSet.contains(intsNotInSet.get(1)) || intSet.contains(intsNotInSet.get(2))
-                || intSet.contains(intsNotInSet.get(3)) || intSet.contains(intsNotInSet.get(4))){
-            System.err.println("TEST FAILED -- intSet contains(element)");
-        }
-
-        if(intSet.containsAll(intsNotInSet)){
-            System.err.println("TEST FAILED -- intSet ContainsAll(elements)");
-        }
-
-        if(intSet.remove(77));
-
-        if(intSet.contains(77)){
-            System.err.println("TEST FAILED -- intSet remove(element)");
-        }
-
-        if(!intSet.removeAll(ints)){
-            System.err.println("TEST FAILED -- intSet removeAll(elements)");
-        }
-
-
-
-        System.out.println("TESTING DONE.");
-
+       set = larger;
     }
-
-
 
 
 }
