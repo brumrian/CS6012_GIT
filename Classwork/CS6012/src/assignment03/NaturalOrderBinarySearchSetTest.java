@@ -1,7 +1,9 @@
 package assignment03;
 
+import assignment03.Archive.LibraryBook;
 import assignment03.Archive.LibraryBookGeneric;
 import assignment03.Archive.LibraryGeneric;
+import assignment03.Archive.PhoneNumber;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-class BinarySearchSetTest {
+class NaturalOrderBinarySearchSetTest {
 
     //Create Empty Set
     BinarySearchSet<Float> emptySet = new BinarySearchSet<>();
@@ -26,18 +28,7 @@ class BinarySearchSetTest {
     ArrayList<Integer> ints = new ArrayList<>();
     ArrayList<Integer> intsNotInSet = new ArrayList<>();
 
-    //Create Library Set
 
-    BinarySearchSet<LibraryBookGeneric<String>> libraryBookSet;
-    ArrayList<LibraryBookGeneric<String>> books;
-    LibraryGeneric<String> library;
-
-    LibraryGeneric<String> libNotInSet = new LibraryGeneric<String>();
-    ArrayList<LibraryBookGeneric<String>> booksNotInSet;
-
-
-
-//    = new BinarySearchSet<LibraryBookGeneric<String>>(getComparator());
 
 
 
@@ -87,23 +78,6 @@ class BinarySearchSetTest {
         intsNotInSet.add(-77);
         intsNotInSet.add(-3000);
 
-        /* LibraryBookGeneric Test Setup */
-
-        library = new LibraryGeneric<>();
-        libraryBookSet = new BinarySearchSet<>(library.getComparator());
-        library.addAll("src/assignment03/Archive/Mushroom_Publishing.txt");
-        books = library.getInventoryList();
-
-        libraryBookSet.addAll(books);
-
-        libNotInSet.add(9780374292799L, "Thomas L. Friedman", "The World is Flat");
-        libNotInSet.add(9780330351690L, "Jon Krakauer", "Into the Wild");
-        libNotInSet.add(9780446580342L, "David Baldacci", "Simple Genius");
-
-        booksNotInSet = libNotInSet.getInventoryList();
-
-
-
 
     }
 
@@ -117,12 +91,6 @@ class BinarySearchSetTest {
         intSet = null;
         ints = null;
         intsNotInSet = null;
-
-        library = null;
-        libraryBookSet = null;
-        books = null;
-        libNotInSet = null;
-        booksNotInSet = null;
 
 
     }
@@ -170,11 +138,6 @@ class BinarySearchSetTest {
         Assert.assertTrue(intSet.add(intsNotInSet.get(0)) && intSet.add(intsNotInSet.get(1)) && intSet.add(intsNotInSet.get(2))
                 && intSet.add(intsNotInSet.get(3)) && intSet.add(intsNotInSet.get(4)));
 
-        //Library Book Tests
-
-        Assert.assertFalse(libraryBookSet.add(books.get(0)) && libraryBookSet.add(books.get(1)) && libraryBookSet.add(books.get(2)));
-        Assert.assertTrue(libraryBookSet.add(booksNotInSet.get(0)) && libraryBookSet.add(booksNotInSet.get(1)) && libraryBookSet.add(booksNotInSet.get(2)));
-
 
     }
 
@@ -189,9 +152,6 @@ class BinarySearchSetTest {
         Assert.assertFalse(intSet.addAll(ints));
         Assert.assertTrue(intSet.addAll(intsNotInSet));
 
-        //Library Book Tests
-        Assert.assertFalse(libraryBookSet.addAll(books));
-        Assert.assertTrue(libraryBookSet.addAll(booksNotInSet));
 
     }
 
@@ -206,9 +166,6 @@ class BinarySearchSetTest {
         intSet.clear();
         Assert.assertEquals(intSet.size(), 0);
 
-        //Library Book Tests
-        libraryBookSet.clear();
-        Assert.assertEquals(libraryBookSet.size(), 0);
     }
 
     @Test
@@ -232,13 +189,6 @@ class BinarySearchSetTest {
         Assert.assertFalse(ints.contains(intsNotInSet.get(0)) && intSet.contains(intsNotInSet.get(1)) && intSet.contains(intsNotInSet.get(2))
                 && intSet.contains(intsNotInSet.get(3)) && intSet.contains(intsNotInSet.get(4)));
 
-        //Library Book Tests
-        Assert.assertTrue(libraryBookSet.contains(books.get(0)) && libraryBookSet.contains(books.get(2)) && libraryBookSet.contains(books.get(4))
-                && libraryBookSet.contains(books.get(6)) && libraryBookSet.contains(books.get(8)));
-        Assert.assertFalse(libraryBookSet.contains(booksNotInSet.get(0)) && libraryBookSet.contains(booksNotInSet.get(1))
-                && libraryBookSet.contains(booksNotInSet.get(2)));
-
-
     }
 
 
@@ -250,7 +200,7 @@ class BinarySearchSetTest {
 
         Assert.assertFalse(stringSet.isEmpty());
         Assert.assertFalse(intSet.isEmpty());
-        Assert.assertFalse(libraryBookSet.isEmpty());
+//        Assert.assertFalse(libraryBookSet.isEmpty());
 
         Assert.assertTrue(emptySet.isEmpty());
 
@@ -272,11 +222,6 @@ class BinarySearchSetTest {
         Assert.assertFalse(intSet.contains(ints.get(0)));
         Assert.assertTrue((sizeBefore - 1) == sizeAfter);
 
-        //Library Book Tests
-        Assert.assertFalse(libraryBookSet.remove(booksNotInSet.get(0)));
-        Assert.assertTrue(libraryBookSet.remove(books.get(10)));
-        Assert.assertFalse(libraryBookSet.contains(books.get(10)));
-
     }
 
     @Test
@@ -288,8 +233,7 @@ class BinarySearchSetTest {
         //Integer Tests
         Assert.assertEquals(intSet.size(), 10);
 
-        //Library Book Tests
-        Assert.assertEquals(libraryBookSet.size(), 23);
+
     }
 
     @Test
@@ -301,18 +245,6 @@ class BinarySearchSetTest {
         //Integer Tests
         Object[] expectedIntegerArray = new Object[]{-1000, -300, -100, -21, 0, 37, 50, 77, 500, 3000};
         Assert.assertArrayEquals(expectedIntegerArray, intSet.toArray());
-
-        //Library Book Tests
-        libraryBookSet.removeAll(books);
-        libraryBookSet.addAll(booksNotInSet);
-        Assert.assertFalse(libraryBookSet.containsAll(books));
-        Assert.assertTrue(libraryBookSet.containsAll(booksNotInSet));
-
-        Object[] expectedBookArray = new Object[] {booksNotInSet.get(2), booksNotInSet.get(0), booksNotInSet.get(1)};
-        Assert.assertArrayEquals(expectedBookArray, libraryBookSet.toArray());
-
-
-
 
     }
 
@@ -329,11 +261,6 @@ class BinarySearchSetTest {
         Assert.assertFalse(stringSet.removeAll(intsNotInSet));
         Assert.assertEquals(intSet.size(), 0);
 
-        //Library Book Tests
-        Assert.assertTrue(libraryBookSet.removeAll(books));
-        Assert.assertFalse(libraryBookSet.removeAll(booksNotInSet));
-        Assert.assertEquals(libraryBookSet.size() , 0);
-
     }
 
     @Test
@@ -345,10 +272,6 @@ class BinarySearchSetTest {
        //Integer Tests
        Assert.assertTrue(intSet.containsAll(ints));
        Assert.assertFalse(intSet.containsAll(intsNotInSet));
-
-       //Library Book Tests
-        Assert.assertTrue(libraryBookSet.containsAll(books));
-        Assert.assertFalse(libraryBookSet.containsAll(booksNotInSet));
 
     }
 
