@@ -5,6 +5,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DoublyLinkedListTest {
@@ -36,7 +38,8 @@ class DoublyLinkedListTest {
     @AfterEach
     public void breakDown(){
 
-
+        intList = null;
+        stringList = null;
 
     }
 
@@ -186,8 +189,8 @@ class DoublyLinkedListTest {
         Assert.assertEquals(stringList.lastIndexOf("Hope"), 1);
 
         stringList.addLast("Hope");
-        Assert.assertEquals(stringList.size(), 5);
-//        Assert.assertEquals(stringList.lastIndexOf("Hope"), 4);
+        Assert.assertEquals(stringList.size(), 7);
+        Assert.assertEquals(stringList.lastIndexOf("Hope"), 6);
 
 
 
@@ -196,17 +199,76 @@ class DoublyLinkedListTest {
 
     @Test
     void size() {
+
+        Assert.assertEquals(intList.size() , intList.size);
+        Assert.assertEquals(intList.size(), 4);
+
+        intList.addFirst(-1);
+
+        Assert.assertEquals(intList.size() , intList.size);
+        Assert.assertEquals(intList.size(), 5);
+
+
+        Assert.assertEquals(stringList.size() , stringList.size);
+        Assert.assertEquals(stringList.size(), 4);
+
+        stringList.addLast("Insert");
+
+        Assert.assertEquals(stringList.size() , stringList.size);
+        Assert.assertEquals(stringList.size(), 5);
+
+
     }
 
     @Test
     void isEmpty() {
+
+        Assert.assertFalse(intList.isEmpty());
+        intList.remove(0);
+        intList.remove(0);
+        intList.remove(0);
+        intList.remove(0);
+        Assert.assertTrue(intList.isEmpty());
+
+        Assert.assertFalse(stringList.isEmpty());
+        stringList.removeFirst();
+        stringList.removeFirst();
+        stringList.removeLast();
+        stringList.removeLast();
+        Assert.assertTrue(stringList.isEmpty());
+
     }
 
     @Test
     void clear() {
+
+        intList.clear();
+        Assert.assertEquals(intList.size(), 0);
+        Assert.assertThrows(NoSuchElementException.class, () -> intList.getFirst());
+        Assert.assertThrows(IndexOutOfBoundsException.class, () -> intList.remove(0));
+
+
+
+        stringList.clear();
+        Assert.assertEquals(stringList.size(), 0);
+        Assert.assertThrows(NoSuchElementException.class, () -> stringList.getLast());
+        Assert.assertThrows(IndexOutOfBoundsException.class, () -> stringList.remove(0));
+
+
+
+
+
+
     }
 
     @Test
     void toArray() {
+
+        Integer[] expectedIntegerArray = new Integer[]{0,1,2,3};
+        Assert.assertArrayEquals(expectedIntegerArray, intList.toArray());
+
+        String[] expectedStringArray = new String[]{"Apple", "Banana", "Candy", "Daddy"};
+        Assert.assertArrayEquals(expectedStringArray, stringList.toArray());
+
     }
 }

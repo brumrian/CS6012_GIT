@@ -18,72 +18,20 @@ import java.util.NoSuchElementException;
 
 public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
 
-   public Node<E> head;
+    public Node<E> head;
     public Node<E> tail;
     int size = 0;
 
 
 
-
     DoublyLinkedList(){
-//
+
         head = null;
         tail = null;
 
     }
 
-    @Override
-    public Iterator<E> iterator() {
-        return new listIterator();
-    }
-
-    public class listIterator implements Iterator<E>{
-        private Node<E> current = head;
-        private int position = 0;
-        private int previous = -1; //for remove() method
-        boolean calledNext = false;
-
-
-
-
-        @Override
-        public boolean hasNext() {
-            if(position < size){
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-
-        public E next() {
-            if (!hasNext()){
-                throw new NoSuchElementException("End of List");
-            }
-            E temp = current.data;
-            current = current.next;  // if next is null, hasNext will return false.
-            calledNext = true;
-            position++;
-            previous++;
-            return temp;
-        }
-
-//        @Override
-//        public void remove(){
-//
-//            if(!calledNext){
-//                throw new IllegalStateException("Cannot call .remove() before .next() is called");
-//            }
-//
-//        }
-
-
-    };
-
-
     private class Node<E>{
-
-        // each node stores some data
 
         E data;
         Node next;
@@ -111,6 +59,7 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
     /**
      * Inserts the specified element at the beginning of the doubly linked list.
      * Time complexity: O(1)
+     * @Param element is data user wants to store in first position of the list
      *
      */
 
@@ -141,17 +90,18 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
     /**
      * Inserts the specified element at the end of the doubly-linked list.
      * Time complexity: O(1)
+     * @Param element is data user wants to store in last position of the list
      *
      */
 
     @Override
-    public void addLast(Object o) {
+    public void addLast(Object element) {
 
         Node<E> oldTail = tail;
         Node<E> newLast = new Node<E>();
 
         newLast.prev = tail;
-        newLast.data = (E) o;
+        newLast.data = (E) element;
         tail.next = newLast;
 
         size++;
@@ -165,6 +115,8 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
      * Inserts the specified element at the specified position in the doubly-linked list. Throws
      * IndexOutOfBoundsException if index is out of range (index < 0 || index >= size)
      * Time complexity: O(N)
+     * @Param index is where in the list the user wants to store the element
+     * @Param element is data user wants to store in first position of the list
      */
 
     @Override
@@ -198,10 +150,7 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
         }
 
         Node<E> storeOldNext = node.next;
-//        Node<E> after = node.next.next;
-//        if(after != null) {
-//            after.prev = toAdd;
-//        }
+
         node.next = toAdd;
         toAdd.prev = node;
         toAdd.next = storeOldNext;
@@ -216,8 +165,9 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
     }
 
     /**
-     * Returns the first element in the doubly-linked list. Throws NoSuchElementException if the
+     * @Return head.data returns the first element in the doubly-linked list. Throws NoSuchElementException if the
      * list is empty. Time complexity: O(1)
+     *
      */
 
     @Override
@@ -229,7 +179,7 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
     }
 
     /**
-     * Returns the last element in the doubly-linked list. Throws NoSuchElementException if the
+     * @Return tail.data returns the last element in the doubly-linked list. Throws NoSuchElementException if the
      * list is empty. Time complexity: O(1)
      */
 
@@ -246,6 +196,7 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
      * Returns the element at the specified position in the doubly-linked list. Throws
      * IndexOutOfBoundsException if index is out of range (index < 0 || index >=
      * size()) Time complexity: O(N)
+     *
      */
 
     @Override
@@ -263,8 +214,8 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
     }
 
     /**
-     * Removes and returns the first element from the list. Throws
-     * NoSuchElementException if the list is empty. O(1) for a doubly-linked list.
+     *  Throws NoSuchElementException if the list is empty. O(1) for a doubly-linked list.
+     *  @Return temp returns the first element from the list which is being removed
      */
 
     @Override
@@ -275,12 +226,14 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
         E temp = head.data;
         head = head.next;
         head.prev = null;
+        size--;
         return temp;
     }
 
     /**
      * Removes and returns the last element from the doubly-linked list. Throws
      * NoSuchElementException if the list is empty. Time Complexity: O(1)
+     * 
      */
 
     @Override
@@ -289,8 +242,11 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
             throw new NoSuchElementException("List is empty.");
         }
         E temp = tail.data;
-        tail = tail.prev;
-        tail.next = null;
+        if(tail.prev != null) {
+            tail = tail.prev;
+            tail.next = null;
+        }
+        size--;
         return temp;
     }
 
@@ -426,8 +382,9 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
 
         Node<E> temp = head;
         while(temp != null) {
-            temp = null;
+
             temp = temp.next;
+            temp = null;
         }
 
         size = 0;
@@ -460,6 +417,56 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
 
         return array;
     }
+
+    public class listIterator implements Iterator<E>{
+        private Node<E> current = head;
+        private int position = 0;
+        private int previous = -1; //for remove() method
+        boolean calledNext = false;
+
+
+
+
+        @Override
+        public boolean hasNext() {
+            if(position < size){
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+
+        public E next() {
+            if (!hasNext()){
+                throw new NoSuchElementException("End of List");
+            }
+            E temp = current.data;
+            current = current.next;  // if next is null, hasNext will return false.
+            calledNext = true;
+            position++;
+            previous++;
+            return temp;
+        }
+
+//        @Override
+//        public void remove(){
+//
+//            if(!calledNext){
+//                throw new IllegalStateException("Cannot call .remove() before .next() is called");
+//            }
+//
+//        }
+
+
+    };
+
+    @Override
+    public Iterator<E> iterator() {
+        return new listIterator();
+    }
+
+
 
     public static void main(String[] args) {
         DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
