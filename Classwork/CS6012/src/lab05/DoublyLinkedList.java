@@ -68,20 +68,14 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
             return temp;
         }
 
-        @Override
-        public void remove(){
-
-            if(!calledNext){
-                throw new IllegalStateException("Cannot call .remove() before .next() is called");
-            }
-
-
-
-
-
-
-
-        }
+//        @Override
+//        public void remove(){
+//
+//            if(!calledNext){
+//                throw new IllegalStateException("Cannot call .remove() before .next() is called");
+//            }
+//
+//        }
 
 
     };
@@ -176,11 +170,16 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
     @Override
     public void add(int index, Object element) throws IndexOutOfBoundsException {
 
-        if(index < 0 || index >= size){
-            throw new IndexOutOfBoundsException("Index outside bounds of doubly-linked list");
+        if(index < 0){
+            throw new IndexOutOfBoundsException("Index cannot be less than zero.");
+
+
+        }
+        if(index > size){
+            throw new IndexOutOfBoundsException("Index outside bounds of doubly-linked list.");
         }
 
-        if(index == size){
+        if(index != 0 && index == size){
             addLast(element);
             return;
         }
@@ -374,12 +373,19 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
         int toReturn = -1;
         int count = 0;
         while(temp != null) {
+
+
+
             if(temp.data == (E) element) {
                toReturn = count;
             }
 
+
             temp = temp.next;
             count++;
+
+
+
         }
 
 
@@ -433,7 +439,7 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
      * Returns an array containing all of the elements in this list in proper
      * sequence (from first to last element). O(N) for a doubly-linked list.
      */
-    
+
 
     @Override
     public Object[] toArray() {
