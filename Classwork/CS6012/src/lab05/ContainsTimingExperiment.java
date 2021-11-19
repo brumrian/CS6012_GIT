@@ -37,10 +37,10 @@ public class ContainsTimingExperiment {
             set.add(i);
           }
           int findElement = random.nextInt(size); // This gets me a random int between 0 and size;
-//          set.remove(findElement);
+          set.remove(findElement);
           // TIME IT!
           long start = System.nanoTime();
-          set.contains(size + 1);
+          set.add(findElement);
           long stop = System.nanoTime();
           totalTime += stop - start;
         }

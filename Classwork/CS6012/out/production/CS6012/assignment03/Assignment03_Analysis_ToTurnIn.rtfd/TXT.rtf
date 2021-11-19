@@ -1,0 +1,89 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11380\viewh10200\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 Rian Brumfield Analysis_ 
+\f1\b0 \
+\
+1. If you had backed the sorted set with a Java List instead of a basic array,\
+summarize the main points in which your implementation would have differed. Do\
+you expect that using a Java List would have more or less efficient and why?\
+(Consider efficiency both in running time and in program development time.)\
+\
+
+\f0\b Program development time would have been significantly reduced if we backed Sorted Set with an ArrayList because we could have taken advantage of methods like add(index, value), contains(), and remove(), that are already coded. As far as program running time, the time would be more or less the same because the heart of the Sorted Set class is the Binary Search which has a time complexity of O(LogN). \
+\
+For example,  to take advantage of the add(index, value), whose time complexity is O(N) method from JavaList, we would have to run the binary search to find the index, whose time complexity is O(LogN). Therefore, the total time complexity to add a value would be O(NlogN).\
+\
+Similarly, the add function I wrote calls binary search O(LogN) , and then shifts every other element down one in the array, O(N), so my add time complexity is still O(NlogN).\
+
+\f1\b0 \
+\
+\
+\
+2. What do you expect the Big-O behavior of BinarySearchSet's contains method\
+to be and why?\
+\
+
+\f0\b My contains method has Big-O complexity of O(Log(N)) because it relies on Binary search to find the element in the set and other small, O(1) complexity for other operations. Binary search has O(Log(N)) complexity because half of the data set is removed for each layer of the search. \
+\
+
+\f1\b0 \
+\
+\
+3. Plot the running time of BinarySearchSet's contains method, using the timing\
+techniques demonstrated in previous labs. Be sure to use a decent iteration\
+count to get a reasonable average of running times. Include your plot in your\
+analysis document. Does the growth rate of these running times match the Big-oh\
+behavior you predicted in question 2?\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic ContainsGraph.png \width10000 \height10000 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+
+\f0\b According to the graph above, the contains() method appears to be O(logN) in complexity, as predicted. In order to confirm the above graph models a logarithmic function, I chose 3 sets of points to calculate the rate of change.\
+\
+For the first set of points, I chose N = 1634 and N = 32768. The rate of change on this interval calculated to approximately  953.58E^-6.\
+\
+For the next set of points, I chose N = 131072 and N = 262144. The rate of change on this interval calculated to approximately 128.55E^-6.\
+\
+For the final set of points, I chose N = 2097152 and N = 4194304. The rate of change on this interval calculated to appromimately 7.75E^-6.\
+\
+The rate of change between points is approaching 0 as N tends towards infinity, which implies the function is indeed logarithmic. If the complexity were O(NlogN), O(N^2), or O(2^N), then the rate of change would be increasing. Furthermore, if the complexity were O(N), the rate of change between points would be constant. 
+\f1\b0 \
+\
+\
+\
+\
+\
+4. Consider your add method. For an element not already contained in the set,\
+how long does it take to locate the correct position at which to insert the\
+element? Create a plot of running times. Pay close attention to the problem\
+size for which you are collecting running times. Beware that if you simply add\
+N items, the size of the sorted set is always changing. A good strategy is to\
+fill a sorted set with N items and time how long it takes to add one additional\
+item. To do this repeatedly (i.e., iteration count), remove the item and add it\
+again, being careful not to include the time required to call remove() in your\
+total. In the worst-case, how much time does it take to locate the position to\
+add an element (give your answer using Big-oh)?\
+\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic AddGraph.png \width10000 \height10000 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+
+\f0\b The worst case for finding the index to add an element to the Binary Search Set is O(LogN) because the binary search which finds the index is O(LogN) complexity. Moving the elements in the array over one to make room for the new element is at worst O(LogN). Therefore, the complexity of the adds method is at worst O(logN). This is also true for the average case, which is consistent with the graph above which appears to be O(NlogN).
+\f1\b0 \
+\
+Upload your analysis document addressing these questions as a PDF document with\
+your solution.\
+\
+}
