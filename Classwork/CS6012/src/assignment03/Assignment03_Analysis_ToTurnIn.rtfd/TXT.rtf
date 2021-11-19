@@ -46,18 +46,18 @@ behavior you predicted in question 2?\
 \cf0 \
 \
 
-\f0\b According to the graph above, the contains() method appears to be O(logN) in complexity, as predicted. In order to confirm the above graph models a logarithmic function, I chose 3 sets of points to calculate the rate of change.\
+\f0\b According to the graph above, the contains() method appears to be O(logN) in complexity, as predicted.  If the complexity were O(NlogN), O(N^2), or O(2^N), then the rate of change between would be increasing as N tends towards infinity. Furthermore, if the complexity were O(N), the rate of change between points would be constant. O(LogN) is the only potential function whose rate of change decrease as N tends toward infinity.\
 \
-For the first set of points, I chose N = 1634 and N = 32768. The rate of change on this interval calculated to approximately  953.58E^-6.\
+Therefore, in order to confirm the above graph models a logarithmic function, I calculated the average rate of change over three intervals.\
 \
-For the next set of points, I chose N = 131072 and N = 262144. The rate of change on this interval calculated to approximately 128.55E^-6.\
+For the first interval, [1634, 2768], the rate of change on this interval calculated to approximately  953.58E^-6.\
 \
-For the final set of points, I chose N = 2097152 and N = 4194304. The rate of change on this interval calculated to appromimately 7.75E^-6.\
+For the second interval, [31072, 262144], the rate of change on this interval calculated to approximately 128.55E^-6.\
 \
-The rate of change between points is approaching 0 as N tends towards infinity, which implies the function is indeed logarithmic. If the complexity were O(NlogN), O(N^2), or O(2^N), then the rate of change would be increasing. Furthermore, if the complexity were O(N), the rate of change between points would be constant. 
+For the final interval, [2097152, 4194304], the rate of change on this interval calculated to approximately 7.75E^-6.\
+\
+The rate of change between points is approaching 0 as N tends towards infinity, which implies the function is indeed logarithmic.
 \f1\b0 \
-\
-\
 \
 \
 \
@@ -80,7 +80,17 @@ add an element (give your answer using Big-oh)?\
 \cf0 \
 \
 
-\f0\b The worst case for finding the index to add an element to the Binary Search Set is O(LogN) because the binary search which finds the index is O(LogN) complexity. Moving the elements in the array over one to make room for the new element is at worst O(LogN). Therefore, the complexity of the adds method is at worst O(logN). This is also true for the average case, which is consistent with the graph above which appears to be O(NlogN).
+\f0\b The worst case for finding the index to add an element to the Binary Search Set is O(LogN) because the binary search which finds the index is O(LogN) complexity. Moving the elements in the array over one to make room for the new element is at worst O(N). Therefore, the complexity of the adds method is at worst O(N + Log(N)). Because N is more dominant than logN, the complexity would be O(N),  which is consistent with the seemingly linear graph above. \
+\
+To prove the above data represents a linear function, I calculated the average rate of change on three intervals.\
+\
+For interval one, [8192, 16384], the average rate of change was 0.6866.\
+For interval two, [16384, 32768], the average rate of change was 0.6696.\
+For the final interval [32768, 65536], the average rate of change was 0.6340.\
+\
+The rates of change over the three intervals are more or less constant, which implies the modeled function is linear. \
+\
+
 \f1\b0 \
 \
 Upload your analysis document addressing these questions as a PDF document with\

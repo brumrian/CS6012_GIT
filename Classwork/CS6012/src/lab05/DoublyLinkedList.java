@@ -201,7 +201,12 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
 
     @Override
     public Object get(int index) throws IndexOutOfBoundsException {
-        if(index < 0 || index >= size){
+        if(index < 0){
+            throw new IndexOutOfBoundsException("Index cannot be a negative number.");
+
+        }
+
+        if(index >= size){
             throw new IndexOutOfBoundsException("Index outside bounds of doubly-linked list.");
         }
 
@@ -233,7 +238,7 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
     /**
      * Removes and returns the last element from the doubly-linked list. Throws
      * NoSuchElementException if the list is empty. Time Complexity: O(1)
-     * 
+     *
      */
 
     @Override
@@ -305,7 +310,7 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
         Node<E> temp = head;
         int count = 0;
         while(temp != null) {
-            if(temp.data == (E) element) {
+            if(temp.data.equals((E) element)) {
                 return count;
             }
 
@@ -332,7 +337,7 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
 
 
 
-            if(temp.data == (E) element) {
+            if(temp.data.equals((E) element)) {
                toReturn = count;
             }
 
@@ -421,7 +426,6 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
     public class listIterator implements Iterator<E>{
         private Node<E> current = head;
         private int position = 0;
-        private int previous = -1; //for remove() method
         boolean calledNext = false;
 
 
@@ -445,18 +449,19 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
             current = current.next;  // if next is null, hasNext will return false.
             calledNext = true;
             position++;
-            previous++;
             return temp;
         }
 
-//        @Override
-//        public void remove(){
-//
-//            if(!calledNext){
-//                throw new IllegalStateException("Cannot call .remove() before .next() is called");
-//            }
-//
-//        }
+        @Override
+        public void remove(){
+
+            if(!calledNext){
+                throw new IllegalStateException("Cannot call .remove() before .next() is called");
+            }
+
+            DoublyLinkedList.this.remove(--position);
+            calledNext = false;
+        }
 
 
     };
@@ -467,49 +472,5 @@ public class DoublyLinkedList<E> implements lab05.List, Iterable<E> {
     }
 
 
-
-    public static void main(String[] args) {
-        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
-
-        list.addFirst(1);
-        list.addFirst(4);
-        list.addFirst(7);
-        list.add(1, 9);
-
-        System.out.println("INDEX TEST: Expect 1 actual " + list.indexOf(9));
-        System.out.println("INDEX TEST: Expect 0 actual " + list.indexOf(7));
-        System.out.println("INDEX TEST: Expect 2 actual " + list.indexOf(4));
-
-
-
-
-
-
-        System.out.println(list.head.data);
-        System.out.println(list.head.next.data);
-        System.out.println(list.head.next.next.data);
-//        System.out.println(list.head.next.next.next.data);
-        System.out.println(list.tail.data);
-
-        list.addFirst(2);
-        list.addFirst(1);
-        list.addFirst(0);
-        list.addLast(100);
-        list.addLast(111);
-
-        list.add(1, 99);
-        list.remove(1);
-
-
-
-        System.out.println(list.head.data);
-        System.out.println(list.head.next.data);
-        System.out.println(list.head.next.next.data);
-        System.out.println(list.head.next.next.next.data);
-
-        System.out.println(list.tail.data);
-
-
-    }
 }
 

@@ -1,4 +1,4 @@
-package lab05;
+package assignment02;
 
 public class HowToTime {
   public static final int BILLION = 1000_000_000;

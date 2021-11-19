@@ -56,18 +56,6 @@ class UserObjectBinarySearchSetTest {
     }
 
     @Test
-    void comparator() {
-
-//        @Rule
-//        ExpectedSystemExit exit = new ExpectedSystemExit.none();
-
-        BinarySearchSet<LibraryBookGeneric<String>> noNaturalOrder = new BinarySearchSet<>();
-
-//        Assert.assertThrows(ClassCastException.class, () -> noNaturalOrder.addAll(smallBookCollection));
-
-    }
-
-    @Test
     void add() {
 
         //Library Book Tests
@@ -109,9 +97,6 @@ class UserObjectBinarySearchSetTest {
 
     }
 
-    @Test
-    void iterator() {
-    }
 
     @Test
     void remove() {

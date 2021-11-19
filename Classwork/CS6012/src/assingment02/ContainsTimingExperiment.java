@@ -1,4 +1,4 @@
-package lab05;
+package assingment02;
 
 import assignment03.BinarySearchSet;
 
@@ -51,8 +51,8 @@ public class ContainsTimingExperiment {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    Charter charter = new Charter();
-    charter.createChart("ContainsData.tsv", "chart.png");
+//    Charter charter = new Charter();
+//    charter.createChart("ContainsData.tsv", "chart.png");
   }
 
 

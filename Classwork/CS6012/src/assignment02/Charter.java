@@ -1,4 +1,4 @@
-package lab05;
+package assignment02;
 
 import java.awt.Dimension;
 import java.io.BufferedReader;
