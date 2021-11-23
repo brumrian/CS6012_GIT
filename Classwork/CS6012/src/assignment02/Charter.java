@@ -25,11 +25,11 @@ public class Charter {
 
   public void createChart(String dataFile, String filename) {
     JFreeChart chart;
-    chart = ChartFactory.createXYLineChart("Contains on Binary Search Set", "Size(N)", "Time(ns) ",
+    chart = ChartFactory.createXYLineChart("QuickSort for ArrayList", "Size(N)", "Time(ns) ",
             createDataSet(dataFile), PlotOrientation.VERTICAL, true, true, false);
 //    chart = ChartFactory.createXYLineChart("Contains on sorted set", "Size (N)", "Time (ms)",
 //        createDataSet(dataFile));
-     chart.getXYPlot().setDomainAxis(new LogarithmicAxis("Size (N"));
+//     chart.getXYPlot().setDomainAxis(new LogarithmicAxis("Size (N"));
     try {
       ChartUtilities.saveChartAsPNG(new File(filename), chart, 500, 500);
     } catch (IOException e) {
@@ -40,7 +40,7 @@ public class Charter {
 
   private void showChart(JFreeChart chart) {
     JFrame frame = new JFrame();
-    frame.setTitle("Contains Timing Experiment");
+    frame.setTitle("QuickSort Timing Experiment");
     ChartPanel chartPanel = new ChartPanel(chart);
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setPreferredSize(new Dimension(400, 200));
@@ -53,7 +53,7 @@ public class Charter {
     XYSeriesCollection dataset = new XYSeriesCollection();
     try (FileReader reader = new FileReader(dataFile); BufferedReader br = new BufferedReader(reader)) {
       String line;
-      XYSeries series = new XYSeries("add");
+      XYSeries series = new XYSeries("Quick Sort (BEST CASE)");
       while ((line = br.readLine()) != null) {
         String[] split = line.split("\t");
         series.add(new XYDataItem(Double.parseDouble(split[0]), Double.parseDouble(split[1])));

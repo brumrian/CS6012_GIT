@@ -1,0 +1,68 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Bold;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww12840\viewh15060\viewkind1
+\deftab720
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\ri0\qc\partightenfactor0
+
+\f0\fs24 \cf0 Lab 2 Worksheet\
+
+\f1\b Work by Rian Brumfield\
+11/09/21
+\f0\b0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\ri0\partightenfactor0
+\cf0 \
+Answer the following questions by modifying this text file. Add your answer below each question.\
+\
+1. On your computer, how many times per second does the millisecond timer update?\
+\
+
+\f1\b On my computer, the millisecond timer updated 1000 times per second,  with some rare exception of 999 times per second. When it was 999, the number of times the loop was checked was less than usual. One iteration of the loop is much shorter than a millisecond. 
+\f0\b0 \
+\
+2. Is it possible to determine how many times per second the nanosecond timer updates? If so, how many? If not, why not?\
+\
+
+\f1\b We cannot know for certain exactly how many times per second it updates, but the program finds it updating about 23 million times per second. Ideally, the timer is updating every billionth of a second but each nano change cannot be counted by the program because of the time it takes for it to run and check the time for change.
+\f0\b0 \
+\
+\
+3. Judging by experiment 4, how long does it appear to take to compute System.nanoTime()? \
+\
+
+\f1\b Calling nanoTime() would take a nanoSecond or maybe less, however running through the loop and comparing the difference between the last time called by the nanoTime function takes about 83 nanoseconds to be completed.\
+
+\f0\b0 \
+\
+4. Estimate the precision of your answer above (+/- how many nanoseconds?).\
+\
+
+\f1\b My answer represents the mode of the data set, but there are higher outlier values like 125 nanoSeconds or at the start of the program up to 300 nanoseconds. Every now and then, when the program is run, the time it takes to complete the loop doubles, probably due to caching issues. \
+
+\f0\b0 \
+\
+5. How long does it take to compute the square root of the numbers 1 through 10?\
+\
+
+\f1\b The number of nanoSeconds is not fixed\'97 the time it takes to complete the loop can range from around 8000 nanoSeconds to 70000 nanoSeconds. 
+\f0\b0 \
+\
+\
+6. Estimate the precision of your answer above (+/- how many nanoseconds?)\
+\
+
+\f1\b The precision is very low because a large range was given to represent the values. The independent values are very inconsistent. The time it takes to run the program is very long because none of the data has been cached previously, so all the data is being accessed from RAM.\
+
+\f0\b0 \
+\
+7. If you repeat the square root test 100x as many times, does the precision improve?\
+\
+
+\f1\b Yes, the precision improves and it evens out to around 50 nanoseconds within the range of 200 nanoSeconds. There are small tweaks which may move the average up or down by ~100 nanoSeconds, like storing the square root result in a variable.
+\f0\b0 \
+\
+8. How could you improve the results (get a more accurate estimate of elapsed time)?\
+\
+
+\f1\b Assemble code that is more likely to generate cache. You can also ensure your environment is as clean as possible and make small changes with code like declaring variables outside loops. }
