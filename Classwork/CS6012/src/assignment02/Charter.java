@@ -53,7 +53,7 @@ public class Charter {
     XYSeriesCollection dataset = new XYSeriesCollection();
     try (FileReader reader = new FileReader(dataFile); BufferedReader br = new BufferedReader(reader)) {
       String line;
-      XYSeries series = new XYSeries("Quick Sort (BEST CASE)");
+      XYSeries series = new XYSeries("Quick Sort (Random Pivot)");
       while ((line = br.readLine()) != null) {
         String[] split = line.split("\t");
         series.add(new XYDataItem(Double.parseDouble(split[0]), Double.parseDouble(split[1])));

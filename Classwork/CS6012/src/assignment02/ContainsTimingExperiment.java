@@ -2,6 +2,7 @@ package assignment02;
 
 import assignment03.BinarySearchSet;
 import assignment04.SortUtil;
+import assignment04.aSortUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -22,7 +23,7 @@ public class ContainsTimingExperiment {
     try (FileWriter fw = new FileWriter(new File("contains_experiment.tsv"))) { // open up a file writer so we can write
                                                                                 // to file.
       Random random = new Random();
-      for (int exp = 8; exp <= 18; exp++) { // This is used as the exponent to calculate the size of the set.
+      for (int exp = 8; exp <= 20; exp++) { // This is used as the exponent to calculate the size of the set.
         int size = (int) Math.pow(2, exp); // or ..
 
         // Do the experiment multiple times, and average out the results
@@ -33,8 +34,8 @@ public class ContainsTimingExperiment {
 //          BinarySearchSet<Integer> set = new BinarySearchSet<>();
 //          SortedSet<Integer> set = new TreeSet<>();
 //          ArrayList<Integer> set = SortUtil.generateAverageCase(500);
-//          ArrayList<Integer> set = SortUtil.generateAverageCase(size);
-          ArrayList<Integer> set = SortUtil.generateBestCase(size);
+          ArrayList<Integer> set = SortUtil.generateAverageCase(size);
+//          ArrayList<Integer> set = SortUtil.generateBestCase(size);
 //          ArrayList<Integer> set = SortUtil.generateWorstCase(size);
           Comparator comparator = Comparator.naturalOrder();
 
@@ -45,7 +46,7 @@ public class ContainsTimingExperiment {
 //          set.remove(findElement);
           // TIME IT!
           long start = System.nanoTime();
-          SortUtil.quickSortDriver(set,comparator );
+          aSortUtil.quicksort(set, comparator);
           long stop = System.nanoTime();
           totalTime += stop - start;
         }
@@ -56,8 +57,8 @@ public class ContainsTimingExperiment {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    Charter charter = new Charter();
-    charter.createChart("contains_experiment.tsv", "chart.png");
+//    Charter charter = new Charter();
+//    charter.createChart("QUICK_RANDOMP.tsv", "chart.png");
   }
 
 
