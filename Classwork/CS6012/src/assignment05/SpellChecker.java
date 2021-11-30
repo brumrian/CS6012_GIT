@@ -54,7 +54,9 @@ public class SpellChecker {
    *          - the String to be added to the dictionary
    */
   public void addToDictionary(String word) {
-    // FILL IN
+
+    dictionary.add(word);
+
   }
 
   /**
@@ -64,7 +66,8 @@ public class SpellChecker {
    *          - the String to be removed from the dictionary
    */
   public void removeFromDictionary(String word) {
-    // FILL IN
+    dictionary.remove(word);
+
   }
 
   /**
@@ -74,13 +77,18 @@ public class SpellChecker {
    *          - the File that contains Strings to be looked up in the dictionary
    * @return a List of misspelled words
    */
-  public List<String> spellCheck(File documentFile) {
+  public ArrayList<String> spellCheck(File documentFile) {
 
     List<String> wordsToCheck = readFromFile(documentFile);
+    ArrayList<String> misspelledWords = new ArrayList<>();
 
-    // FILL IN -- do not return null
+    for(String word: wordsToCheck){
+      if(!dictionary.contains(word)){
+        misspelledWords.add(word);
+      }
+    }
 
-    return null;
+    return misspelledWords;
   }
 
   /**
@@ -90,7 +98,7 @@ public class SpellChecker {
    *          - the List of Strings to be added to the dictionary
    */
   private void buildDictionary(List<String> words) {
-    // FILL IN
+    dictionary.addAll(words);
   }
 
   /**
@@ -131,8 +139,12 @@ public class SpellChecker {
       System.err.println("File " + file + " cannot be found.");
     }
 
-    System.out.println("Document is " + words);
+//    System.out.println("Document is " + words);
 
     return words;
+  }
+
+  public BinarySearchTree<String> getDictionary() {
+    return dictionary;
   }
 }

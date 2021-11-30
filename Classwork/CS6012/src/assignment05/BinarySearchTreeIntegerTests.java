@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
+
+import static org.junit.Assert.assertThrows;
 
 class BinarySearchTreeTest {
 
@@ -43,11 +46,6 @@ class BinarySearchTreeTest {
 
     }
 
-    @AfterEach
-    public void breakdown(){
-
-    }
-
     @Test
     void add() {
 
@@ -76,6 +74,8 @@ class BinarySearchTreeTest {
 
        Assert.assertEquals(balancedBST.size(), 7);
 
+       Assert.assertThrows(NullPointerException.class, () -> balancedBST.add(null));
+
 
 
     }
@@ -95,6 +95,9 @@ class BinarySearchTreeTest {
         BinarySearchTree.Node right = head.right;
         Assert.assertEquals(right.data, 60);
 
+        Assert.assertThrows(NullPointerException.class, () -> balancedBST.addAll(null));
+
+
     }
 
     @Test
@@ -113,6 +116,8 @@ class BinarySearchTreeTest {
         Assert.assertTrue(balancedBST.contains(52));
         Assert.assertTrue(balancedBST.contains(45));
 
+        Assert.assertThrows(NullPointerException.class, () -> balancedBST.contains(null));
+
 
 
     }
@@ -126,12 +131,25 @@ class BinarySearchTreeTest {
         balancedIntArray.add(500);
         Assert.assertFalse(balancedBST.containsAll(balancedIntArray));
 
+        Assert.assertThrows(NullPointerException.class, () -> balancedBST.containsAll(null));
+
+
     }
 
     @Test
     void first() {
+
+        Assert.assertThrows(NoSuchElementException.class, () -> balancedBST.first());
+
         balancedBST.addAll(balancedIntArray);
         Integer first = balancedBST.first();
+        Integer expectedFirst = 37;
+        Assert.assertEquals(first, expectedFirst);
+
+
+        Integer first2 = unbalancedBST.first();
+        Integer expectedFirst2 = 20;
+        Assert.assertEquals(first2, expectedFirst2);
 
     }
 
@@ -146,6 +164,9 @@ class BinarySearchTreeTest {
 
     @Test
     void last() {
+
+        Assert.assertThrows(NoSuchElementException.class, () -> balancedBST.last());
+
         balancedBST.addAll(balancedIntArray);
         Integer last = balancedBST.last();
         Integer expected = 63;
@@ -160,6 +181,9 @@ class BinarySearchTreeTest {
     @Test
     void remove() {
 
+        Assert.assertThrows(NullPointerException.class, () -> balancedBST.remove(null));
+
+
         Assert.assertTrue(unbalancedBST.contains(20));
         Assert.assertTrue(unbalancedBST.remove(20));
         Assert.assertFalse(unbalancedBST.contains(20));
@@ -169,7 +193,7 @@ class BinarySearchTreeTest {
         Assert.assertFalse(unbalancedBST.contains(50));
 
         Integer first = unbalancedBST.first();
-        Integer expected = 55;
+        Integer expected = 35;
         Assert.assertEquals(first, expected);
 
         Assert.assertTrue(unbalancedBST.contains(40));
@@ -299,6 +323,32 @@ class BinarySearchTreeTest {
 
     @Test
     void toArrayList() {
+
+
+        ArrayList<Integer> expectedUnbalanced = new ArrayList<>();
+        expectedUnbalanced.add(20);
+        expectedUnbalanced.add(35);
+        expectedUnbalanced.add(40);
+        expectedUnbalanced.add(45);
+        expectedUnbalanced.add(50);
+        expectedUnbalanced.add(55);
+        expectedUnbalanced.add(60);
+        expectedUnbalanced.add(70);
+
+        Assert.assertEquals(expectedUnbalanced, unbalancedBST.toArrayList());
+
+        ArrayList<Integer> expectedBalanced = new ArrayList<>();
+        expectedBalanced.add(37);
+        expectedBalanced.add(40);
+        expectedBalanced.add(45);
+        expectedBalanced.add(50);
+        expectedBalanced.add(52);
+        expectedBalanced.add(60);
+        expectedBalanced.add(63);
+
+        balancedBST.addAll(balancedIntArray);
+        Assert.assertEquals(expectedBalanced, balancedBST.toArrayList());
+
 
 
     }

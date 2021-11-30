@@ -14,10 +14,10 @@ public class SpellCheckerDemo {
 
   public static void main(String[] args) {
 
-    SpellChecker mySC = new SpellChecker(new File("dictionary.txt"));
+    SpellChecker mySC = new SpellChecker(new File("src/assignment05/dictionary.txt"));
 
-    run_spell_check(mySC, "hello_world.txt");
-    run_spell_check(mySC, "good_luck.txt");
+    run_spell_check(mySC, "src/assignment05/hello_world.txt");
+    run_spell_check(mySC, "src/assignment05/good_luck.txt");
   }
 
   private static void run_spell_check(SpellChecker sc, String documentFilename) {
