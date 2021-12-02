@@ -73,8 +73,13 @@ class BinarySearchTreeTest {
        Assert.assertEquals(right.left.data, 11);
 
        Assert.assertEquals(balancedBST.size(), 7);
+       balancedBST.add(11);
+       balancedBST.add(15);
+       Assert.assertEquals(balancedBST.size(), 7);
 
-       Assert.assertThrows(NullPointerException.class, () -> balancedBST.add(null));
+
+
+        Assert.assertThrows(NullPointerException.class, () -> balancedBST.add(null));
 
 
 
@@ -102,6 +107,13 @@ class BinarySearchTreeTest {
 
     @Test
     void clear() {
+
+        unbalancedBST.clear();
+        Assert.assertEquals(unbalancedBST.size(), 0);
+        unbalancedBST.add(10);
+        Integer headData = unbalancedBST.head.data;
+        Integer expectedData = 10;
+        Assert.assertEquals(headData, expectedData);
     }
 
     @Test

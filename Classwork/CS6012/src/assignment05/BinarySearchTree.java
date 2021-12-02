@@ -55,27 +55,34 @@ public class BinarySearchTree <T extends Comparable<? super T>> implements Sorte
     @Override
     public boolean add(T item) {
 
+
         if(item == null){
             throw new NullPointerException("Cannot add a null item to a Binary Search Tree.");
         }
 
-        Node node = new Node();
-        node.data = item;
-        boolean toReturn = false;
+        if(!contains(item)) {
+
+            Node node = new Node();
+            node.data = item;
+            boolean toReturn = false;
 
 
-        if(size == 0){
-            head = node;
-            size ++;
-            return true;
+            if (size == 0) {
+                head = node;
+                size++;
+                return true;
+
+            } else {
+                toReturn = insert(head, item);
+                size++;
+                
+            }
+
+
+            return toReturn;
+
         }
-        else{
-            toReturn = insert(head, item);
-            size ++;
-        }
-
-
-        return toReturn;
+        return false;
     }
 
     /**
@@ -232,6 +239,10 @@ public class BinarySearchTree <T extends Comparable<? super T>> implements Sorte
 
         if(item == null){
             throw new NullPointerException("Cannot remove a null item from the tree.");
+        }
+
+        if(!contains(item)){
+            return false;
         }
 
        Node toDelete = findNode(head, item); //find the node which needs to be deleted to send to correct case
